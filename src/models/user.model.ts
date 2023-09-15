@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-import moongose, { mongo } from "mongoose";
+import moongose from "mongoose";
 
 const userSchema = new moongose.Schema(
   {
@@ -24,7 +23,14 @@ const userSchema = new moongose.Schema(
   }
 );
 
-export const UserModel = mongoose.model("User", userSchema);
+export const UserModel = moongose.model("User", userSchema);
 
 export const createUser = (values: Record<string, any>) =>
   new UserModel(values).save().then((user) => user.toObject());
+
+export const fetchUserWithSelectFields = (
+  userId: moongose.Types.ObjectId,
+  selectFields: string[]
+) => {
+  return UserModel.findById(userId).select(selectFields);
+};

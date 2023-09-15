@@ -1,16 +1,13 @@
 import express from "express";
-import { UserModel, createUser } from "../models/user.model";
-import { hashPassword } from "../helpers";
+import {
+  UserModel,
+  createUser,
+  fetchUserWithSelectFields,
+} from "../../models/user.model";
+import { hashPassword } from "../../helpers/encryption";
 import { MongooseError } from "mongoose";
-import createAccessToken from "../libs/jwt";
-interface IUser {
-  email: string;
-  password: string;
-}
-
-interface IRegisterUser extends IUser {
-  username: string;
-}
+import createAccessToken from "../../libs/jwt";
+import { IRegisterUser } from "../../types/user/interfaces";
 
 export const register = async (req: express.Request, res: express.Response) => {
   try {
@@ -24,7 +21,7 @@ export const register = async (req: express.Request, res: express.Response) => {
       password: passwordHashed,
     });
     createUser(newUser);
-    const userResponse = await UserModel.findById(newUser._id).select([
+    const userResponse = await fetchUserWithSelectFields(newUser._id, [
       "username",
       "email",
       "createdAt",
@@ -54,5 +51,4 @@ export const register = async (req: express.Request, res: express.Response) => {
   }
 };
 
-export const login = (req: express.Request, res: express.Response) =>
-  res.send("login");
+export default register;
