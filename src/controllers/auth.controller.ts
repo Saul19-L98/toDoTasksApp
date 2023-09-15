@@ -2,6 +2,7 @@ import express from "express";
 import { UserModel, createUser } from "../models/user.model";
 import { hashPassword } from "../helpers";
 import { MongooseError } from "mongoose";
+import createAccessToken from "../libs/jwt";
 interface IUser {
   email: string;
   password: string;
@@ -31,8 +32,15 @@ export const register = async (req: express.Request, res: express.Response) => {
     ]);
 
     if (!userResponse) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User was not created" });
     }
+
+    const token = await createAccessToken({ id: userResponse._id });
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+    });
     res.status(200).json({
       email: userResponse?.email,
       username: userResponse?.username,
@@ -41,7 +49,7 @@ export const register = async (req: express.Request, res: express.Response) => {
     });
   } catch (error) {
     if (error instanceof MongooseError) {
-      res.status(500).json({ message: "User was not created" });
+      res.status(500).json({ message: "DataBase connection is not working." });
     }
   }
 };
