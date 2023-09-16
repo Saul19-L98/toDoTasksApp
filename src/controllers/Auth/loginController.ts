@@ -1,5 +1,5 @@
 import express from "express";
-import { UserModel, createUser } from "../../models/user.model";
+import { UserModel, createUser } from "../../models/user/userModel";
 import { comparePassword } from "../../helpers/encryption";
 import { MongooseError } from "mongoose";
 import createAccessToken from "../../libs/jwt";

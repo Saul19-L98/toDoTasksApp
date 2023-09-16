@@ -34,3 +34,7 @@ export const fetchUserWithSelectFields = (
 ) => {
   return UserModel.findById(userId).select(selectFields);
 };
+
+export const findUserById = (userId: moongose.Types.ObjectId) => {
+  return UserModel.findById(userId).then((user) => user?.toObject());
+};

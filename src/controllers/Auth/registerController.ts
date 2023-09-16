@@ -3,7 +3,7 @@ import {
   UserModel,
   createUser,
   fetchUserWithSelectFields,
-} from "../../models/user.model";
+} from "../../models/user/userModel";
 import { hashPassword } from "../../helpers/encryption";
 import { MongooseError } from "mongoose";
 import createAccessToken from "../../libs/jwt";
