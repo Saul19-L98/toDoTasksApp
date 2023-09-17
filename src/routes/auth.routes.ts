@@ -3,7 +3,7 @@ import register from "../controllers/auth/registerController";
 import login from "../controllers/auth/loginController";
 import logout from "../controllers/auth/logoutController";
 import profile from "../controllers/profile/profileController";
-import authRequired from "../middlewares/validateToken";
+import { authRequired } from "../middlewares/authRequired";
 
 const router = Router();
 
