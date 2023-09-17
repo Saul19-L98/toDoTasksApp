@@ -1,7 +1,5 @@
 import mongoose, { MongooseError } from "mongoose";
-
-const MONGO_USER = "sallanez";
-const MONGO_PASSWORD = "g67UWOHbfthhPMFo";
+import { MONGO_USER, MONGO_PASSWORD } from "./config";
 
 const uri = `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}@cluster0.ymceg3r.mongodb.net/?retryWrites=true&w=majority`;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version

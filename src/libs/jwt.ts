@@ -10,7 +10,7 @@ export default function createAccessToken(payload: IPayload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,
-      JWT_SECRET,
+      JWT_SECRET!,
       {
         expiresIn: "30d",
       },

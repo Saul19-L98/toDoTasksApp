@@ -5,7 +5,6 @@ import { MongooseError } from "mongoose";
 export const createTask = async (req: Request, res: Response) => {
   try {
     const { title, description, date } = req.body;
-    console.log(req.body);
     const newTask = new TaskModel({
       title,
       description,

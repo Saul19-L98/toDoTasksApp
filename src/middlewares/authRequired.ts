@@ -10,7 +10,7 @@ export const authRequired = async (
   const token: string | undefined = req.cookies.token;
   if (!token)
     return res.status(401).json({ message: "You are not authorized" });
-  jwt.verify(token, JWT_SECRET, (error, decoded) => {
+  jwt.verify(token, JWT_SECRET!, (error, decoded) => {
     if (error) return res.status(401).json({ message: "Invalid token" });
     req.body = { ...req.body, user: decoded };
     next();
