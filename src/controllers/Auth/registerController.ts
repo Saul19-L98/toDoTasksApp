@@ -1,9 +1,5 @@
 import express from "express";
-import {
-  UserModel,
-  createUser,
-  fetchUserWithSelectFields,
-} from "../../models/user/userModel";
+import { UserModel, createUser } from "../../models/user/userModel";
 import { hashPassword } from "../../helpers/encryption";
 import { MongooseError } from "mongoose";
 import createAccessToken from "../../libs/jwt";
@@ -20,13 +16,15 @@ export const register = async (req: express.Request, res: express.Response) => {
       email,
       password: passwordHashed,
     });
-    createUser(newUser);
-    const userResponse = await fetchUserWithSelectFields(newUser._id, [
-      "username",
-      "email",
-      "createdAt",
-      "updatedAt",
-    ]);
+    const userAlreadyExist = await UserModel.findOne({ email });
+
+    if (userAlreadyExist) {
+      return res.status(404).json({ message: "User already exist" });
+    }
+    const userSaved = await createUser(newUser);
+    const userResponse = await UserModel.findById({
+      _id: userSaved._id,
+    }).select(["username", "email", "createdAt", "updatedAt"]);
 
     if (!userResponse) {
       return res.status(404).json({ message: "User was not created" });

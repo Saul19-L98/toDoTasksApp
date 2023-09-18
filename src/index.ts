@@ -1,14 +1,13 @@
 import app from "./app";
 import connectionMongoDB from "./db";
+import { PORT } from "./config";
 
 //define the port that the server will listen on
-const port = 3000;
+const port = PORT;
 app.get("/", (req, res) => {
-  res.send("Hello World! 😅");
+  res.status(200).send("Hello World! 😅");
 });
 //start the server
-app.listen(port, () => {
-  //console.log(`server started at http://localhost:${port}`);
-});
+app.listen(port);
 
 connectionMongoDB();

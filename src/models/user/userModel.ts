@@ -28,13 +28,13 @@ export const UserModel = moongose.model("User", userSchema);
 export const createUser = (values: Record<string, any>) =>
   new UserModel(values).save().then((user) => user.toObject());
 
-export const fetchUserWithSelectFields = (
-  userId: moongose.Types.ObjectId,
-  selectFields: string[]
-) => {
-  return UserModel.findById(userId).select(selectFields);
-};
+// export const fetchUserWithSelectFields = (
+//   userId: moongose.Types.ObjectId,
+//   selectFields: string[]
+// ) => {
+//   return UserModel.findById(userId).select(selectFields);
+// };
 
-export const findUserById = (userId: moongose.Types.ObjectId) => {
-  return UserModel.findById(userId).then((user) => user?.toObject());
+export const findUserById = async (userId: moongose.Types.ObjectId) => {
+  return await UserModel.findById(userId).then((user) => user?.toObject());
 };
