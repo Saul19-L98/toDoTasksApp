@@ -32,11 +32,12 @@ export const register = async (req: express.Request, res: express.Response) => {
 
     const token = await createAccessToken({ id: userResponse._id });
     res.cookie("token", token, {
-      httpOnly: true,
+      //httpOnly: true,
       secure: true,
       sameSite: "lax",
     });
     res.status(200).json({
+      id: userResponse?._id,
       email: userResponse?.email,
       username: userResponse?.username,
       createdAt: userResponse?.createdAt,

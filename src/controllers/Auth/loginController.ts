@@ -23,11 +23,12 @@ const login = async (req: express.Request, res: express.Response) => {
 
     const token = await createAccessToken({ id: userFound._id });
     res.cookie("token", token, {
-      httpOnly: true,
+      //httpOnly: true,
       secure: true,
       sameSite: "lax",
     });
     res.status(200).json({
+      id: userFound?._id,
       email: userFound?.email,
       username: userFound?.username,
       createdAt: userFound?.createdAt,

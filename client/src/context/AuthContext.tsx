@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react';
+import { createContext, useState, useContext, useEffect } from 'react';
 import { AxiosError } from 'axios';
 import {
   registerRequest,
@@ -7,6 +7,7 @@ import {
   UserCredentials,
   loginRequest,
 } from '../api/auth';
+import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 
 interface IAuthContext {
@@ -34,6 +35,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userSession, setUserSession] = useState<UserCredentials | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    const token = Cookies.get('token');
+    console.log('Cookies:', document.cookie);
+    console.log('Token:', token);
+  }, [isAuthenticated]);
   const authenticate = async <T extends UserData>(
     // Pass the appropriate request function
     requestData: (user: T) => Promise<UserCredentials>,
@@ -46,6 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const res = await requestData(userData);
       setIsAuthenticated(true);
       setUserSession({
+        id: res.id,
         email: res.email,
         username: res.username,
         createdAt: res.createdAt,

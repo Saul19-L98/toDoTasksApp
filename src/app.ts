@@ -12,6 +12,7 @@ console.log(ORIGIN_DOMAIN);
 app.use(
   cors({
     origin: ORIGIN_DOMAIN,
+    credentials: true,
   })
 );
 app.use(morgan("dev"));
