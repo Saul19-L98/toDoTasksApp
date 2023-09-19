@@ -20,6 +20,8 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+type UserData = RegisterType | LoginType;
+
 export const AuthContext = createContext({} as IAuthContext);
 
 export const useAuth = () => {
@@ -31,9 +33,17 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userSession, setUserSession] = useState<UserCredentials | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const signUp = async (user: RegisterType) => {
+
+  const authenticate = async <T extends UserData>(
+    // Pass the appropriate request function
+    requestData: (user: T) => Promise<UserCredentials>,
+    // Pass the user data
+    userData: T,
+    setIsAuthenticated: (value: boolean) => void,
+    setUserSession: (data: UserCredentials) => void
+  ) => {
     try {
-      const res = await registerRequest(user);
+      const res = await requestData(userData);
       setIsAuthenticated(true);
       setUserSession({
         email: res.email,
@@ -41,7 +51,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         createdAt: res.createdAt,
         updatedAt: res.updatedAt,
       });
-      toast.success('Account created successfully 🎉');
+      toast.success('Authenticated successfully 🎉');
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.response?.data);
@@ -50,25 +60,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       }
     }
   };
-  const login = async (user: LoginType) => {
-    try {
-      const res = await loginRequest(user);
-      setIsAuthenticated(true);
-      setUserSession({
-        email: res.email,
-        username: res.username,
-        createdAt: res.createdAt,
-        updatedAt: res.updatedAt,
-      });
-      toast.success('Logged in successfully 🎉');
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error.response?.data);
-        toast.error(error.response?.data.message);
-        setIsAuthenticated(false);
-      }
-    }
-  };
+
+  const signUp = async (user: RegisterType) =>
+    await authenticate(
+      registerRequest,
+      user,
+      setIsAuthenticated,
+      setUserSession
+    );
+  const login = async (user: LoginType) =>
+    await authenticate(loginRequest, user, setIsAuthenticated, setUserSession);
   return (
     <AuthContext.Provider
       value={{ userSession, signUp, login, isAuthenticated }}
