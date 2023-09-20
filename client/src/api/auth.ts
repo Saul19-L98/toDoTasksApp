@@ -26,3 +26,6 @@ export const registerRequest = (user: RegisterType): Promise<UserCredentials> =>
 
 export const loginRequest = (user: LoginType): Promise<UserCredentials> =>
   axios.post('/auth/login', user);
+
+export const verifyToken = (): Promise<UserCredentials> =>
+  axios.get('/auth/verify');

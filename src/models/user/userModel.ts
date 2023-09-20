@@ -1,6 +1,6 @@
-import moongose from "mongoose";
+import mongoose from "mongoose";
 
-const userSchema = new moongose.Schema(
+const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -23,7 +23,7 @@ const userSchema = new moongose.Schema(
   }
 );
 
-export const UserModel = moongose.model("User", userSchema);
+export const UserModel = mongoose.model("User", userSchema);
 
 export const createUser = (values: Record<string, any>) =>
   new UserModel(values).save().then((user) => user.toObject());
@@ -35,6 +35,6 @@ export const createUser = (values: Record<string, any>) =>
 //   return UserModel.findById(userId).select(selectFields);
 // };
 
-export const findUserById = async (userId: moongose.Types.ObjectId) => {
+export const findUserById = async (userId: mongoose.Types.ObjectId) => {
   return await UserModel.findById(userId).then((user) => user?.toObject());
 };

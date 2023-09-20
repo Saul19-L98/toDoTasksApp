@@ -6,13 +6,14 @@ import {
   LoginType,
   UserCredentials,
   loginRequest,
+  verifyToken,
 } from '../api/auth';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-
 interface IAuthContext {
   userSession: UserCredentials | null;
   isAuthenticated: boolean;
+  loading: boolean;
   login: (user: LoginType) => void;
   signUp: (user: RegisterType) => void;
 }
@@ -34,12 +35,33 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userSession, setUserSession] = useState<UserCredentials | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = Cookies.get('token');
-    console.log('Cookies:', document.cookie);
-    console.log('Token:', token);
-  }, [isAuthenticated]);
+    async function checkLogin() {
+      const cookie = Cookies.get();
+      if (!cookie.token) {
+        setIsAuthenticated(false);
+        setLoading(false);
+        setUserSession(null);
+        return;
+      }
+      try {
+        const res = await verifyToken();
+        if (res) {
+          setIsAuthenticated(true);
+          setLoading(false);
+          setUserSession(res);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data.message);
+        }
+      }
+    }
+    checkLogin();
+  }, []);
+
   const authenticate = async <T extends UserData>(
     // Pass the appropriate request function
     requestData: (user: T) => Promise<UserCredentials>,
@@ -51,13 +73,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       const res = await requestData(userData);
       setIsAuthenticated(true);
-      setUserSession({
-        id: res.id,
-        email: res.email,
-        username: res.username,
-        createdAt: res.createdAt,
-        updatedAt: res.updatedAt,
-      });
+      setUserSession(res);
       toast.success('Authenticated successfully 🎉');
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -77,9 +93,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     );
   const login = async (user: LoginType) =>
     await authenticate(loginRequest, user, setIsAuthenticated, setUserSession);
+
   return (
     <AuthContext.Provider
-      value={{ userSession, signUp, login, isAuthenticated }}
+      value={{ userSession, loading, signUp, login, isAuthenticated }}
     >
       {children}
     </AuthContext.Provider>
