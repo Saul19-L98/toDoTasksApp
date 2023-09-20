@@ -1,7 +1,6 @@
-import React from 'react';
-
+import { TaskFormData } from '../components/Tasks/TaskFormData';
 const TaskForm = () => {
-  return <div>TaskForm</div>;
+  return <TaskFormData />;
 };
 
 export default TaskForm;

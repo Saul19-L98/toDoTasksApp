@@ -2,9 +2,9 @@ import { Title } from '../title';
 
 interface FormContainerProps {
   children: React.ReactNode;
-  title: string;
+  title?: string;
   footPageText?: JSX.Element;
-  onSubmit: (event: React.FormEvent) => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const FormContainer = ({
