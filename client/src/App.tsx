@@ -8,11 +8,13 @@ import Tasks from './pages/Tasks';
 import TaskForm from './pages/TaskForm';
 import ProtectedRoutes from './routes/ProtectedRoutes';
 import { Profile } from './pages/Profile';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/about' element={<h1>About</h1>} />

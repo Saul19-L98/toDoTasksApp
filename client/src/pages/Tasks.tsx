@@ -34,7 +34,7 @@ const Tasks = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks]);
 
-  if (isTasksEmpty || loading) {
+  if (isTasksEmpty && loading) {
     return <TasksEmpty />;
   }
 

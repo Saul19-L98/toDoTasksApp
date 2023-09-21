@@ -14,7 +14,7 @@ const FormContainer = ({
   onSubmit,
 }: FormContainerProps) => {
   return (
-    <div className='flex flex-col justify-center w-full h-screen max-w-md p-10 mx-auto rounded-md bg-stone-800'>
+    <div className='flex flex-col justify-center w-full max-w-md p-10 mx-auto rounded-md bg-stone-800'>
       <Title className='text-4xl text-center'>{title}</Title>
       <form
         className='pt-6 pb-8 mb-4 align-middle rounded shadow-md bg-stone-8080'
