@@ -1,7 +1,22 @@
 import axios from './axios.config';
+import { AxiosError, AxiosResponse } from 'axios';
 import { TaskType } from '../schemas/tasks/taskSchema';
+import { UserCredentials } from './auth';
 
-export const getTasks = () => axios.get('/api/tasks');
+export interface TaskDataResponse {
+  _id: string;
+  title: string;
+  description: string;
+  date: string;
+  user: UserCredentials;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export const getTasks: () => Promise<
+  AxiosResponse<TaskDataResponse[], AxiosError>
+> = () => axios.get('/api/tasks');
 
 export const getTaskReques = (id: string) => axios.get(`/api/tasks/${id}`);
 
