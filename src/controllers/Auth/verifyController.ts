@@ -18,9 +18,9 @@ export const verifyToken = async (req: Request, res: Response) => {
     if (!userFound) res.status(401).json({ message: "Token is not valid" });
     res.status(200).json({
       id: userFound?._id,
-      name: userFound?.username,
+      username: userFound?.username,
       email: userFound?.email,
-      avatar: userFound?.createdAt,
+      updatedAt: userFound?.updatedAt,
       createdAt: userFound?.createdAt,
     });
   });

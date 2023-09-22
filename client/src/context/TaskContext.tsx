@@ -1,12 +1,13 @@
 import { createContext, useContext, useState } from 'react';
 import { TaskDataResponse } from '../api/task';
+import { TaskType } from '../schemas/tasks/taskSchema';
 import { createTask, getTasks } from '../api/task';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 interface ITaskContext {
   tasks: TaskDataResponse[];
-  createNewTask: (task: TaskDataResponse) => void;
+  createNewTask: (task: TaskType) => void;
   getTasksRequest: () => void;
 }
 
@@ -25,7 +26,7 @@ export const useTask = () => {
 export const TaskProvider = ({ children }: TaskProviderProps) => {
   const [tasks, setTasks] = useState<TaskDataResponse[]>([]);
 
-  const createNewTask = async (task: TaskDataResponse) => {
+  const createNewTask = async (task: TaskType) => {
     try {
       await createTask(task);
       toast.success('Task created successfully 🥳');

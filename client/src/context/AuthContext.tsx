@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import {
   registerRequest,
   RegisterType,
+  UserResponse,
   LoginType,
   UserCredentials,
   loginRequest,
@@ -15,6 +16,7 @@ interface IAuthContext {
   isAuthenticated: boolean;
   loading: boolean;
   login: (user: LoginType) => void;
+  logout: () => void;
   signUp: (user: RegisterType) => void;
 }
 
@@ -51,7 +53,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         if (res) {
           setIsAuthenticated(true);
           setLoading(false);
-          setUserSession(res);
+          setUserSession({
+            id: res.data.id,
+            username: res.data.username,
+            email: res.data.email,
+            createdAt: res.data.createdAt,
+            updatedAt: res.data.updatedAt,
+          });
         }
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -64,7 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const authenticate = async <T extends UserData>(
     // Pass the appropriate request function
-    requestData: (user: T) => Promise<UserCredentials>,
+    requestData: (user: T) => Promise<UserResponse>,
     // Pass the user data
     userData: T,
     setIsAuthenticated: (value: boolean) => void,
@@ -72,8 +80,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   ) => {
     try {
       const res = await requestData(userData);
+      console.log('res:', res);
       setIsAuthenticated(true);
-      setUserSession(res);
+      setUserSession({
+        id: res.data.id,
+        username: res.data.username,
+        email: res.data.email,
+        createdAt: res.data.createdAt,
+        updatedAt: res.data.updatedAt,
+      });
       toast.success('Authenticated successfully 🎉');
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -94,9 +109,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (user: LoginType) =>
     await authenticate(loginRequest, user, setIsAuthenticated, setUserSession);
 
+  const logout = () => {
+    Cookies.remove('token');
+    setUserSession(null);
+    setIsAuthenticated(false);
+    toast.success('Logged out 💀');
+  };
+
   return (
     <AuthContext.Provider
-      value={{ userSession, loading, signUp, login, isAuthenticated }}
+      value={{ userSession, loading, signUp, login, isAuthenticated, logout }}
     >
       {children}
     </AuthContext.Provider>

@@ -55,6 +55,7 @@ const Login = () => {
           input: 'p-2',
           error: 'text-red-500',
         }}
+        autoComplete='username'
         type='text'
         error={errors.email?.message}
         {...register('email')}
@@ -66,6 +67,7 @@ const Login = () => {
           input: 'p-2',
           error: 'text-red-500',
         }}
+        autoComplete='current-password'
         type={isPasswordVisible ? 'text' : 'password'}
         error={errors.password?.message}
         showPasswordToggle

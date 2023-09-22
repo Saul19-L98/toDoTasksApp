@@ -60,6 +60,7 @@ const Register = () => {
           input: 'p-2',
           error: 'text-red-500',
         }}
+        autoComplete='username'
         type='text'
         error={errors.username?.message}
         {...register('username')}
@@ -71,6 +72,7 @@ const Register = () => {
           input: 'p-2',
           error: 'text-red-500',
         }}
+        autoComplete='username'
         type='email'
         error={errors.email?.message}
         {...register('email')}
@@ -82,6 +84,7 @@ const Register = () => {
           input: 'p-2',
           error: 'text-red-500',
         }}
+        autoComplete='current-password'
         type={isPasswordVisible ? 'text' : 'password'}
         error={errors.password?.message}
         showPasswordToggle
@@ -99,6 +102,7 @@ const Register = () => {
           input: 'p-2',
           error: 'text-red-500',
         }}
+        autoComplete='current-password'
         type={isConfirmPassword ? 'text' : 'password'}
         error={errors.confirmPassword?.message}
         showPasswordToggle

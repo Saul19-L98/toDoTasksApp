@@ -2,13 +2,9 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 import { Title } from './shared/title';
-import { useEffect } from 'react';
 
 const Navbar = () => {
-  const { isAuthenticated } = useAuth();
-  useEffect(() => {
-    console.log(isAuthenticated);
-  }, []);
+  const { isAuthenticated, logout } = useAuth();
   return (
     <nav className='my-6 border-gray-200'>
       <div className='container flex flex-wrap items-center justify-between px-4 mx-auto sm:px-0'>
@@ -71,6 +67,7 @@ const Navbar = () => {
                   <Link
                     to='/'
                     className='block px-4 py-2 text-lg font-semibold text-center text-white border-t-2 border-white rounded md:border-none hover:bg-white hover:text-black'
+                    onClick={logout}
                   >
                     Logout
                   </Link>

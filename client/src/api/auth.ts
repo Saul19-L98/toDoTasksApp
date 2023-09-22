@@ -21,11 +21,15 @@ export type UserCredentials = {
   updatedAt: string;
 };
 
-export const registerRequest = (user: RegisterType): Promise<UserCredentials> =>
+export type UserResponse = {
+  data: UserCredentials;
+};
+
+export const registerRequest = (user: RegisterType): Promise<UserResponse> =>
   axios.post('/auth/register', user);
 
-export const loginRequest = (user: LoginType): Promise<UserCredentials> =>
+export const loginRequest = (user: LoginType): Promise<UserResponse> =>
   axios.post('/auth/login', user);
 
-export const verifyToken = (): Promise<UserCredentials> =>
+export const verifyToken = (): Promise<UserResponse> =>
   axios.get('/auth/verify');

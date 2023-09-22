@@ -2,7 +2,6 @@ import axios from './axios.config';
 import { AxiosError, AxiosResponse } from 'axios';
 import { TaskType } from '../schemas/tasks/taskSchema';
 import { UserCredentials } from './auth';
-
 export interface TaskDataResponse {
   _id: string;
   title: string;
