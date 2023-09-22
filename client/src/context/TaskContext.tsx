@@ -1,12 +1,13 @@
 import { createContext, useContext, useState } from 'react';
 import { TaskDataResponse } from '../api/task';
 import { TaskType } from '../schemas/tasks/taskSchema';
-import { createTask, getTasks } from '../api/task';
+import { createTask, getTasks, deleteTaskRequest } from '../api/task';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
 interface ITaskContext {
   tasks: TaskDataResponse[];
+  deleteTask: (id: string) => void;
   createNewTask: (task: TaskType) => void;
   getTasksRequest: () => void;
 }
@@ -47,8 +48,21 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
     }
   };
 
+  const deleteTask = async (id: string) => {
+    try {
+      await deleteTaskRequest(id);
+      getTasksRequest();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message);
+      }
+    }
+  };
+
   return (
-    <TaskContext.Provider value={{ createNewTask, getTasksRequest, tasks }}>
+    <TaskContext.Provider
+      value={{ createNewTask, getTasksRequest, tasks, deleteTask }}
+    >
       {children}
     </TaskContext.Provider>
   );

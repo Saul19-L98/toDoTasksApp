@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { taskSchema, TaskType } from '../../schemas/tasks/taskSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTask } from '../../context/TaskContext';
+import { useNavigate } from 'react-router-dom';
 
 export const TaskFormData = () => {
   const {
@@ -19,6 +20,7 @@ export const TaskFormData = () => {
   });
 
   const { createNewTask } = useTask();
+  const navigation = useNavigate();
 
   const addDate = () => {
     register('date');
@@ -28,6 +30,7 @@ export const TaskFormData = () => {
 
   const onSubmit: SubmitHandler<TaskType> = (data) => {
     createNewTask(data);
+    navigation('/tasks');
     reset({
       title: '',
       description: '',

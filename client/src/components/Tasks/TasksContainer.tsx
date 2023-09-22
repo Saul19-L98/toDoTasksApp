@@ -2,14 +2,19 @@ import TaskCard from './TaskCard';
 import { useTask } from '../../context/TaskContext';
 import { Title } from '../shared/title';
 import { useAuth } from '../../context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const TasksContainer = () => {
   const { userSession } = useAuth();
-  const { tasks } = useTask();
-
+  const { tasks, getTasksRequest } = useTask();
+  const useEffectRef = useRef(false);
   useEffect(() => {
-    console.log(userSession);
+    if (!useEffectRef.current) {
+      getTasksRequest();
+      console.log('mounted 💀📜📜💀💀');
+      useEffectRef.current = true;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,3 +1,5 @@
+import { useTask } from '../../context/TaskContext';
+import { Button } from '../shared/Button';
 import { Title } from '../shared/title';
 
 interface TaskCardProps {
@@ -10,6 +12,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task }: TaskCardProps) => {
+  const { deleteTask } = useTask();
   return (
     <div className='bg-stone-700'>
       <div className='max-w-sm overflow-hidden rounded shadow-lg'>
@@ -28,9 +31,14 @@ const TaskCard = ({ task }: TaskCardProps) => {
           <span className='inline-block px-3 py-1 mb-2 mr-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full'>
             #travel
           </span>
-          <span className='inline-block px-3 py-1 mb-2 mr-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full'>
-            #winter
-          </span>
+          <Button
+            className='bg-red-700 hover:bg-red-400'
+            onClick={() => {
+              deleteTask(task._id);
+            }}
+          >
+            <span className='text-white'>DELETE</span>
+          </Button>
         </div>
       </div>
     </div>
