@@ -2,19 +2,29 @@ import TaskCard from './TaskCard';
 import { useTask } from '../../context/TaskContext';
 import { Title } from '../shared/title';
 import { useAuth } from '../../context/AuthContext';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TasksEmpty from './TasksEmpty';
 
 const TasksContainer = () => {
   const { userSession } = useAuth();
-  const { tasks } = useTask();
+  const { tasks, getTasksRequest } = useTask();
+  const effectRef = useRef(false);
 
   const [componentToShow, setComponentToShow] = useState<JSX.Element | null>(
     null
   );
   useEffect(() => {
+    async function getTasks() {
+      await getTasksRequest();
+    }
+
     if (tasks.length === 0) {
       setComponentToShow(<TasksEmpty />);
+    }
+
+    if (!effectRef.current) {
+      getTasks();
+      effectRef.current = true;
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tasks]);

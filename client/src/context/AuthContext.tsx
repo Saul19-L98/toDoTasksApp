@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect, useRef } from 'react';
 import { AxiosError } from 'axios';
 import {
   registerRequest,
@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [userSession, setUserSession] = useState<UserCredentials | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const effectRef = useRef(false);
 
   useEffect(() => {
     async function checkLogin() {
@@ -67,7 +68,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
       }
     }
-    checkLogin();
+    if (!effectRef.current) {
+      checkLogin();
+      effectRef.current = true;
+    }
   }, []);
 
   const authenticate = async <T extends UserData>(
