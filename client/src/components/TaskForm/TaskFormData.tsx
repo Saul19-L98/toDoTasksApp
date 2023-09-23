@@ -6,7 +6,8 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { taskSchema, TaskType } from '../../schemas/tasks/taskSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTask } from '../../context/TaskContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 
 export const TaskFormData = () => {
   const {
@@ -19,7 +20,26 @@ export const TaskFormData = () => {
     resolver: zodResolver(taskSchema),
   });
 
-  const { createNewTask } = useTask();
+  const { id } = useParams();
+  const { createNewTask, updateTask, getTask } = useTask();
+  const effectRef = useRef(false);
+
+  useEffect(() => {
+    async function loadTask() {
+      if (id) {
+        const task = await getTask(id);
+        setValue('title', task!.title);
+        setValue('description', task!.description);
+        setValue('date', task!.date);
+      }
+    }
+    if (!effectRef.current) {
+      loadTask();
+      effectRef.current = true;
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const navigation = useNavigate();
 
   const addDate = () => {
@@ -29,7 +49,11 @@ export const TaskFormData = () => {
   };
 
   const onSubmit: SubmitHandler<TaskType> = (data) => {
-    createNewTask(data);
+    if (!id) {
+      createNewTask(data);
+    } else {
+      updateTask(id, data);
+    }
     navigation('/tasks');
     reset({
       title: '',
@@ -55,7 +79,7 @@ export const TaskFormData = () => {
         label='Description'
         classNames={{
           label: 'text-white',
-          textarea: 'p-2',
+          textarea: 'p-2 h-40',
           error: 'text-red-500',
         }}
         error={errors.description?.message}

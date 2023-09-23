@@ -1,6 +1,7 @@
 import { useTask } from '../../context/TaskContext';
 import { Button } from '../shared/Button';
 import { Title } from '../shared/title';
+import { useNavigate } from 'react-router-dom';
 
 interface TaskCardProps {
   task: {
@@ -13,6 +14,7 @@ interface TaskCardProps {
 
 const TaskCard = ({ task }: TaskCardProps) => {
   const { deleteTask } = useTask();
+  const navigate = useNavigate();
   return (
     <div className='bg-stone-700'>
       <div className='max-w-sm overflow-hidden rounded shadow-lg'>
@@ -24,13 +26,13 @@ const TaskCard = ({ task }: TaskCardProps) => {
             {new Date(task.date).toDateString()}
           </p>
         </div>
-        <div className='px-6 pt-4 pb-2'>
-          <span className='inline-block px-3 py-1 mb-2 mr-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full'>
-            #photography
-          </span>
-          <span className='inline-block px-3 py-1 mb-2 mr-2 text-sm font-semibold text-gray-700 bg-gray-200 rounded-full'>
-            #travel
-          </span>
+        <div className='flex px-6 pt-4 pb-2 justify-evenly'>
+          <Button
+            className='bg-yellow-500 hover:bg-yellow-400'
+            onClick={() => navigate(`/tasks/${task._id}`)}
+          >
+            <span className='text-white'>Edit</span>
+          </Button>
           <Button
             className='bg-red-700 hover:bg-red-400'
             onClick={() => {
