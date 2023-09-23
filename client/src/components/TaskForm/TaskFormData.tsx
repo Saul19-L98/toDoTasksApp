@@ -86,7 +86,7 @@ export const TaskFormData = () => {
         {...register('description')}
       />
       <div className='flex justify-center mt-2'>
-        <Button type='submit' className='mt-4' onClick={() => addDate()}>
+        <Button type='submit' className='mt-4' onClick={() => !id && addDate()}>
           Save
         </Button>
       </div>

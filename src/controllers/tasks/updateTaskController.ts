@@ -5,11 +5,11 @@ import { MongooseError } from "mongoose";
 export const updateTask = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { title, description, date } = req.body;
+    const { title, description } = req.body;
 
     const task = await TaskModel.findOneAndUpdate(
       { _id: id },
-      { title, description, date },
+      { title, description },
       {
         new: true,
       }

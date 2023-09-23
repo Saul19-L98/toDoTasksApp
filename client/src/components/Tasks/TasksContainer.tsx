@@ -38,6 +38,7 @@ const TasksContainer = () => {
                 title: task.title,
                 description: task.description,
                 date: task.date,
+                updatedAt: task.updatedAt,
               }}
             />
           ))}
