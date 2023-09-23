@@ -9,7 +9,7 @@ interface ITaskContext {
   tasks: TaskDataResponse[];
   deleteTask: (id: string) => void;
   createNewTask: (task: TaskType) => void;
-  getTasksRequest: () => void;
+  getTasksRequest: () => Promise<number | undefined>;
 }
 
 interface TaskProviderProps {
@@ -41,6 +41,7 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
     try {
       const res = await getTasks();
       setTasks(res.data);
+      return res.status;
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);
@@ -52,6 +53,7 @@ export const TaskProvider = ({ children }: TaskProviderProps) => {
     try {
       await deleteTaskRequest(id);
       getTasksRequest();
+      toast.success('Task deleted 🥳');
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message);

@@ -2,20 +2,26 @@ import TaskCard from './TaskCard';
 import { useTask } from '../../context/TaskContext';
 import { Title } from '../shared/title';
 import { useAuth } from '../../context/AuthContext';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
+import TasksEmpty from './TasksEmpty';
 
 const TasksContainer = () => {
   const { userSession } = useAuth();
-  const { tasks, getTasksRequest } = useTask();
-  const useEffectRef = useRef(false);
+  const { tasks } = useTask();
+
+  const [componentToShow, setComponentToShow] = useState<JSX.Element | null>(
+    null
+  );
   useEffect(() => {
-    if (!useEffectRef.current) {
-      getTasksRequest();
-      console.log('mounted 💀📜📜💀💀');
-      useEffectRef.current = true;
+    if (tasks.length === 0) {
+      setComponentToShow(<TasksEmpty />);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tasks]);
+
+  if (componentToShow) {
+    return componentToShow;
+  }
 
   return (
     <>

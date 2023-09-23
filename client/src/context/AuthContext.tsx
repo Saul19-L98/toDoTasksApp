@@ -80,7 +80,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   ) => {
     try {
       const res = await requestData(userData);
-      console.log('res:', res);
       setIsAuthenticated(true);
       setUserSession({
         id: res.data.id,

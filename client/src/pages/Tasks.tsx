@@ -1,44 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTask } from '../context/TaskContext';
 import TasksContainer from '../components/Tasks/TasksContainer';
-import TasksEmpty from '../components/Tasks/TasksEmpty';
-import { useAuth } from '../context/AuthContext';
+import Loading from '../components/shared/Loading';
+//import { useAuth } from '../context/AuthContext';
 
 const Tasks = () => {
-  const { loading } = useAuth();
+  //const { loading } = useAuth();
   const { getTasksRequest, tasks } = useTask();
   const effectRef = useRef(false);
-  const [isTasksEmpty, setIsTasksEmpty] = useState(true);
-
+  //const [isTasksEmpty, setIsTasksEmpty] = useState(true);
+  const [componentToShow, setComponentToShow] = useState<JSX.Element | null>(
+    null
+  );
   useEffect(() => {
-    (() => {
-      if (effectRef.current) {
-        getTasksRequest();
-        console.log('reading tasks');
-      }
-    })();
-    return () => {
-      effectRef.current = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    console.log('Before if', isTasksEmpty);
-    if (tasks.length > 0) {
-      setIsTasksEmpty(false);
-      console.log('tasks is empty');
+    async function getTasks() {
+      getTasksRequest().then((res) => {
+        if (res === 200) {
+          setComponentToShow(<TasksContainer />);
+        } else {
+          setComponentToShow(<Loading />);
+        }
+      });
     }
-    console.log('getTasksRequest');
-    console.log('After if', isTasksEmpty);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tasks]);
 
-  if (isTasksEmpty && loading) {
-    return <TasksEmpty />;
-  }
+    if (!effectRef.current) {
+      getTasks();
+      effectRef.current = true;
+    }
+  }, [tasks, getTasksRequest]);
 
-  return <TasksContainer />;
+  return componentToShow;
 };
 
 export default Tasks;
