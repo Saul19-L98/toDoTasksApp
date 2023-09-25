@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
-    "build": "tsc",
+    "build": "tsc && npm run set-env",
     "server": "node dist/index.js",
     "client": "npm run build --prefix client",
     "set-env": "node dist/scripts/setEnv.js",
-    "pro": "concurrently \"npm run build\" \"npm run set-env\" \"npm run client\" \"npm run server\""
+    "pro": "concurrently \"npm run build\" \"npm run client\" && npm run server"
   },
   "keywords": [],
   "author": "",

@@ -4,7 +4,7 @@ import path from "path";
 import connectionMongoDB from "./db";
 import { PORT } from "./config";
 
-app.use(express.static(path.join(__dirname, "/client/dist")));
+app.use(express.static(path.join(__dirname, "../client/dist")));
 app.get("*", (req, res) => {
   res.sendFile(__dirname + "/client/dist/index.html");
 });
