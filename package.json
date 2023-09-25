@@ -8,7 +8,7 @@
     "build": "tsc",
     "server": "node dist/index.js",
     "client": "npm run build --prefix client",
-    "set-env": "node set-env.js",
+    "set-env": "node dist/src/scripts/setEnv.js",
     "pro": "concurrently \"npm run set-env\" \"npm run build\" \"npm run server\" \"npm run client\""
   },
   "keywords": [],
