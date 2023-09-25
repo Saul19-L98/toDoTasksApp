@@ -5,6 +5,8 @@ import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 import 'flowbite';
 
+console.log(import.meta.env.VITE_NODE_API);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />

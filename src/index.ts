@@ -1,6 +1,13 @@
 import app from "./app";
+import express from "express";
+import path from "path";
 import connectionMongoDB from "./db";
 import { PORT } from "./config";
+
+app.use(express.static(path.join(__dirname, "../client/build")));
+app.get("*", (req, res) => {
+  res.sendFile(__dirname + "/client/build/index.html");
+});
 
 //define the port that the server will listen on
 const port = PORT;
