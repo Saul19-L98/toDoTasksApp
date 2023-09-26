@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon",
     "build": "tsc && npm run set-env",
+    "build-test": "tsc",
     "server": "node dist/index.js",
     "client": "npm run build --prefix client",
     "set-env": "node dist/scripts/setEnv.js",
