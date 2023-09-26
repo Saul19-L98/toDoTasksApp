@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { register } from "../controllers/auth/registerController";
-import { login } from "../controllers/auth/loginController";
-import { logout } from "../controllers/auth/logoutController";
+import { register } from "../controllers/authFolder/registerController";
+import { login } from "../controllers/authFolder/loginController";
+import { logout } from "../controllers/authFolder/logoutController";
 import profile from "../controllers/profile/profileController";
 import { authRequired } from "../middlewares/authRequired";
 import { registerSchema, loginSchema } from "../schemas/auth.schema";
 import { validateData } from "../middlewares/validateData";
-import { verifyToken } from "../controllers/auth/verifyController";
+import { verifyToken } from "../controllers/authFolder/verifyController";
 
 const router = Router();
 
