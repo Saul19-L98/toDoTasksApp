@@ -2,7 +2,7 @@ import express from "express";
 import { UserModel, createUser } from "../../models/user/userModel";
 import { hashPassword } from "../../helpers/encryption";
 import { MongooseError } from "mongoose";
-import createAccessToken from "../../libs/jwt";
+import { createAccessToken } from "../../libs/jwt";
 import { IRegisterUser } from "../../types/user/interfaces";
 
 export const register = async (req: express.Request, res: express.Response) => {

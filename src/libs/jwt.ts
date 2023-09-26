@@ -6,7 +6,7 @@ interface IPayload {
   id: ObjectId;
 }
 
-export default function createAccessToken(payload: IPayload) {
+export function createAccessToken(payload: IPayload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,
