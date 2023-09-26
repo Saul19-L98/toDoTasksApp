@@ -11,11 +11,11 @@ app.get("*", (req, res) => {
 console.log(__dirname + "/client/dist/index.html" + `${PORT}`);
 
 //define the port that the server will listen on
-const port = PORT;
-app.get("/", (req, res) => {
-  res.status(200).send("Hello World! 😅");
-});
+// const port = PORT;
+// app.get("/", (req, res) => {
+//   res.status(200).send("Hello World! 😅");
+// });
 //start the server
-app.listen(port);
+app.listen(PORT);
 
 connectionMongoDB();
