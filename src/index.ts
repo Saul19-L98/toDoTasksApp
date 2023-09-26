@@ -6,9 +6,8 @@ import { PORT } from "./config";
 
 app.use(express.static(path.join(__dirname, "../client/dist")));
 app.get("*", (req, res) => {
-  res.sendFile(__dirname + "/client/dist/index.html");
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
-console.log(__dirname + "/client/dist/index.html" + `${PORT}`);
 
 //define the port that the server will listen on
 // const port = PORT;
@@ -16,6 +15,8 @@ console.log(__dirname + "/client/dist/index.html" + `${PORT}`);
 //   res.status(200).send("Hello World! 😅");
 // });
 //start the server
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 connectionMongoDB();
