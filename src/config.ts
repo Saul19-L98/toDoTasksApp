@@ -14,5 +14,6 @@ export const ORIGIN_DOMAIN =
   `${process.env.API_ORIGIN_DOMAIN}:${process.env.API_ORIGIN_PORT}`;
 
 //For the script set-env.ts
-export const NODE_API_PORT = envFound.parsed?.API_PORT;
-export const NODE_API = envFound.parsed?.API_ORIGIN_DOMAIN;
+export const NODE_API_PORT = envFound.parsed?.API_PORT || process.env.API_PORT;
+export const NODE_API =
+  envFound.parsed?.API_ORIGIN_DOMAIN || process.env.API_ORIGIN_DOMAIN;
