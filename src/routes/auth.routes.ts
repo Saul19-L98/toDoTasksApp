@@ -1,7 +1,7 @@
 import { Router } from "express";
-import register from "../controllers/auth/registerController";
-import login from "../controllers/auth/loginController";
-import logout from "../controllers/auth/logoutController";
+import { register } from "../controllers/auth/registerController";
+import { login } from "../controllers/auth/loginController";
+import { logout } from "../controllers/auth/logoutController";
 import profile from "../controllers/profile/profileController";
 import { authRequired } from "../middlewares/authRequired";
 import { registerSchema, loginSchema } from "../schemas/auth.schema";

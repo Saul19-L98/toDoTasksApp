@@ -49,5 +49,3 @@ export const register = async (req: express.Request, res: express.Response) => {
     }
   }
 };
-
-export default register;

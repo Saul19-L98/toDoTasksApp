@@ -5,7 +5,7 @@ import { MongooseError } from "mongoose";
 import createAccessToken from "../../libs/jwt";
 import { IRegisterUser } from "../../types/user/interfaces";
 
-const login = async (req: express.Request, res: express.Response) => {
+export const login = async (req: express.Request, res: express.Response) => {
   try {
     const { email, password }: IRegisterUser = req.body;
 
@@ -40,5 +40,3 @@ const login = async (req: express.Request, res: express.Response) => {
     }
   }
 };
-
-export default login;
