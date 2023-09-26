@@ -9,6 +9,7 @@
     "server": "node dist/index.js",
     "client": "npm run build --prefix client",
     "set-env": "node dist/scripts/setEnv.js",
+    "init": "npm install && npm install --prefix client",
     "pro": "concurrently \"npm run build\" \"npm run client\" && npm run server"
   },
   "keywords": [],
