@@ -8,6 +8,7 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 app.get("*", (req, res) => {
   res.sendFile(__dirname + "/client/dist/index.html");
 });
+console.log(__dirname + "/client/dist/index.html" + `${PORT}`);
 
 //define the port that the server will listen on
 const port = PORT;
