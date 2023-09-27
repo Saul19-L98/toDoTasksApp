@@ -1,8 +1,9 @@
 import axios from 'axios';
 
-const uri = import.meta.env.VITE_NODE_API_PORT
-  ? `${import.meta.env.VITE_NODE_API}:${import.meta.env.VITE_NODE_API_PORT}`
-  : '';
+const uri =
+  import.meta.env.VITE_NODE_API_PORT && import.meta.env.VITE_NODE_API
+    ? `${import.meta.env.VITE_NODE_API}:${import.meta.env.VITE_NODE_API_PORT}`
+    : '';
 console.log(uri);
 const instance = axios.create({
   baseURL: uri,
