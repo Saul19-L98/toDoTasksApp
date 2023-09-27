@@ -4,8 +4,10 @@ import path from "path";
 import connectionMongoDB from "./db";
 import { PORT } from "./config";
 
+connectionMongoDB();
+
 app.use(express.static(path.join(__dirname, "../client/dist")));
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 console.log(path.join(__dirname, "../client/dist"));
@@ -18,5 +20,3 @@ console.log(path.join(__dirname, "../client/dist"));
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-connectionMongoDB();
